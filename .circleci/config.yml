@@ -12,6 +12,13 @@ jobs:
        - run:
            name: Build Docker image
            command: make build all
+       - anchore/analyze_local_image:
+           image_name: 'up42-tf2-py37:latest up42-gdal-py37:latest up42-harp-py37:latest up42-base-py37:latest  up42-snap-py37:latest up42-tf1-py37:latest'
+           policy_failure: true
+           timeout: '500'
+       - anchore/parse_reports
+       - store_artifacts:
+           path: anchore-reports
    push:
      docker:
        - image: circleci/python:3.7
@@ -24,25 +31,12 @@ jobs:
        - run:
            name: Push Docker image
            command: make push all
-   local_image_scan:
-      executor: anchore/anchore_engine
-      steps:
-        - anchore/analyze_local_image:
-            image_name: 'up42-tf2-py37:latest up42-gdal-py37:latest up42-harp-py37:latest up42-base-py37:latest  up42-snap-py37:latest up42-tf1-py37:latest'
-            policy_failure: true
-            timeout: '500'
-        - anchore/parse_reports
-        - store_artifacts:
-            path: anchore-reports
 
 workflows:
   version: 2
   build-master:
     jobs:
       - build
-      - local_image_scan:
-          requires:
-            - build
       - push:
           requires:
             - build
