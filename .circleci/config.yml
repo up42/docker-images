@@ -5,15 +5,15 @@ executors:
       - image: circleci/buildpack-deps:stretch
 orbs:
   anchore-engine: anchore/anchore-engine@1.6.6
-
+  
 jobs:
-  build:
+   build:
     executor: docker-publisher
     steps:
       - checkout
       - run:
-          name: Build Docker image
-          command: make build all
+        name: Build Docker image
+        command: make build all
    push:
      executor: docker-publisher
      steps:
