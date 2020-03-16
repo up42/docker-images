@@ -6,5 +6,5 @@ RUN h5cc -showconfig
 RUN mkdir -p /interstellar/libs
 WORKDIR /interstellar/libs
 
-COPY requirements.txt /interstellar/libs/
+COPY requirements/requirements.txt /interstellar/libs/
 RUN pip install -r /interstellar/libs/requirements.txt
