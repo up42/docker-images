@@ -1,24 +1,26 @@
 version: 2.1
-executors:
-  docker-publisher:
-    docker:
-      - image: circleci/buildpack-deps:stretch
 orbs:
-  anchore-engine: anchore/anchore-engine@1.6.6
-  
+  anchore: anchore/anchore-engine@1.6.6
+
 jobs:
    build:
-    executor: docker-publisher
-    steps:
-      - checkout
-      - run:
-        name: Build Docker image
-        command: make build all
-   push:
-     executor: docker-publisher
+     docker:
+       - image: circleci/python:3.7
      steps:
+       - checkout
        - run:
            name: Build Docker image
+           command: make build all
+   push:
+     docker:
+       - image: circleci/python:3.7
+     steps:
+       - checkout
+       - run:
+           name: Build Docker image
+           command: make build all
+       - run:
+           name: Push Docker image
            command: make push all
    local_image_scan:
       executor: anchore/anchore_engine
