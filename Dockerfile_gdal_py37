@@ -27,5 +27,5 @@ RUN pip install --upgrade --force-reinstall numpy
 RUN mkdir -p /interstellar/libs
 WORKDIR /interstellar/libs
 
-COPY requirements.txt /interstellar/libs/
+COPY requirements/requirements.txt /interstellar/libs/
 RUN pip install -r /interstellar/libs/requirements.txt
