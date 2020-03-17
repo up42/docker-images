@@ -12,6 +12,7 @@ jobs:
        - run:
            name: Build Docker image
            command: make build all
+       - anchore/start_engine
        - anchore/analyze_image:
            image_name: 'docker.io/up42/up42-tf2-py37:latest'
            timeout: '500'
