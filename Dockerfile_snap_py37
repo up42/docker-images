@@ -27,8 +27,8 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 # Making sure JRE is installed before we jump into installing JDK.
 #RUN apt-get install -y --no-install-recommends -t sid
 
-RUN mkdir -p /interstellar/libs
+RUN mkdir -p /up42/libs
 
-COPY requirements/requirements_snap.txt /interstellar/libs/
-WORKDIR /interstellar/libs
+COPY requirements/requirements_snap.txt /up42/libs/
+WORKDIR /up42/libs
 RUN pip3 install -r requirements_snap.txt

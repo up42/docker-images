@@ -25,10 +25,10 @@ RUN ln -f $(which ${PYTHON}) /usr/local/bin/python
 ARG TF_PACKAGE=tensorflow==2.1.0
 RUN pip install --upgrade ${TF_PACKAGE}
 
-RUN mkdir -p /interstellar/libs
-WORKDIR /interstellar/libs
+RUN mkdir -p /up42/libs
+WORKDIR /up42/libs
 
-COPY requirements/requirements.txt /interstellar/libs/
-RUN pip install -r /interstellar/libs/requirements.txt
-COPY requirements/requirements_tf2.txt /interstellar/libs/
-RUN pip install -r /interstellar/libs/requirements_tf2.txt
+COPY requirements/requirements.txt /up42/libs/
+RUN pip install -r /up42/libs/requirements.txt
+COPY requirements/requirements_tf2.txt /up42/libs/
+RUN pip install -r /up42/libs/requirements_tf2.txt
