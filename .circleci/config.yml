@@ -30,27 +30,57 @@ workflows:
   build-master:
     jobs:
       - build
-      - anchore/image_scan:
-          image_name: 'docker.io/up42/up42-tf2-py37:latest'
-          timeout: '500'
-      - anchore/image_scan:
-          image_name: 'docker.io/up42/up42-gdal-py37:latest'
-          timeout: '500'
-      - anchore/image_scan:
-          image_name: 'docker.io/up42/up42-harp-py37:latest'
-          timeout: '500'
-      - anchore/image_scan:
-          image_name: 'docker.io/up42/up42-base-py37:latest'
-          timeout: '500'
-      - anchore/image_scan:
-          image_name: 'docker.io/up42/up42-snap-py37:latest'
-          timeout: '500'
-      - anchore/image_scan:
-          image_name: 'docker.io/up42/up42-tf1-py37:latest'
-          timeout: '500'
       - push:
           requires:
             - build
+          filters:
+            branches:
+              only: master
+      - anchore/image_scan:
+          image_name: 'docker.io/up42/up42-tf2-py37:latest'
+          timeout: '600'
+          requires:
+            - push
+          filters:
+            branches:
+              only: master
+      - anchore/image_scan:
+          image_name: 'docker.io/up42/up42-gdal-py37:latest'
+          timeout: '600'
+          requires:
+            - push
+          filters:
+            branches:
+              only: master
+      - anchore/image_scan:
+          image_name: 'docker.io/up42/up42-harp-py37:latest'
+          timeout: '600'
+          requires:
+            - push
+          filters:
+            branches:
+              only: master
+      - anchore/image_scan:
+          image_name: 'docker.io/up42/up42-base-py37:latest'
+          timeout: '600'
+          requires:
+            - push
+          filters:
+            branches:
+              only: master
+      - anchore/image_scan:
+          image_name: 'docker.io/up42/up42-snap-py37:latest'
+          timeout: '600'
+          requires:
+            - push
+          filters:
+            branches:
+              only: master
+      - anchore/image_scan:
+          image_name: 'docker.io/up42/up42-tf1-py37:latest'
+          timeout: '600'
+          requires:
+            - push
           filters:
             branches:
               only: master

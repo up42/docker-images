@@ -29,3 +29,9 @@ To build all base images:
 ```bash
 make build all
 ```
+
+### Adding a new base image
+
+When adding a new base image, make sure you create the corresponding `Dockerfile` with the naming convention `Dockerfile_[descriptor snap]_[python version e.g. py37]` - the result image name will be `up42-[descriptor]_[python version]`.
+
+Additionally add another `anchore/image_scan` in the `.circleci/config.yml` for the new base image.
