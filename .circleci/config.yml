@@ -4,14 +4,24 @@ orbs:
 
 jobs:
    build:
-     docker:
-       - image: circleci/python:3.7
-     steps:
-       - checkout
-       - setup_remote_docker
-       - run:
-           name: Build Docker image
-           command: make build all
+    docker:
+      - image: circleci/python:3.7
+    environment:
+      ANCHORE_VERSION: v0.6.1
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build Docker image
+          command: make build all
+      - anchore/analyze_local_image:
+          dockerfile_path: ./Dockerfile_tf2_py37
+          image_name: 'up42-tf2-py37:latest'
+          policy_failure: true
+          timeout: '600'
+      - anchore/parse_reports
+      - store_artifacts:
+          path: anchore-reports
    push:
      docker:
        - image: circleci/python:3.7
