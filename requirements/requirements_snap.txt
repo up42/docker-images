@@ -1,0 +1,7 @@
+geojson
+shapely==1.6.4.post2 --no-binary==shapely
+mercantile
+requests
+requests-mock
+python-dateutil
+ciso8601

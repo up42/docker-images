@@ -1,0 +1,15 @@
+rasterio
+geojson
+scikit-image
+Pillow
+pyproj
+shapely==1.6.4.post2 --no-binary==shapely
+mercantile
+area
+requests
+python-dateutil
+ciso8601
+xmltodict
+packaging
+pandas
+geopandas

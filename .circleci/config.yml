@@ -1,0 +1,121 @@
+version: 2.1
+orbs:
+  anchore: anchore/anchore-engine@1.6.6
+
+jobs:
+   build:
+    docker:
+      - image: circleci/python:3.7
+    environment:
+      ANCHORE_VERSION: v0.6.1
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build Docker image
+          command: make build all
+      - anchore/analyze_local_image:
+          dockerfile_path: ./Dockerfile_tf2_py37
+          image_name: 'up42-tf2-py37:latest'
+          policy_failure: false
+          timeout: '1000'
+      - anchore/analyze_local_image:
+          dockerfile_path: ./Dockerfile_gdal_py37
+          image_name: 'up42-gdal-py37:latest'
+          policy_failure: false
+          timeout: '600'
+      - anchore/analyze_local_image:
+          dockerfile_path: ./Dockerfile_harp_py37
+          image_name: 'up42-harp-py37:latest'
+          policy_failure: false
+          timeout: '600'
+      - anchore/analyze_local_image:
+          dockerfile_path: ./Dockerfile_base_py37
+          image_name: 'up42-base-py37:latest'
+          policy_failure: false
+          timeout: '600'
+      - anchore/analyze_local_image:
+          dockerfile_path: ./Dockerfile_snap_py37
+          image_name: 'up42-snap-py37:latest'
+          policy_failure: false
+          timeout: '600'
+      - anchore/analyze_local_image:
+          dockerfile_path: ./Dockerfile_tf1_py37
+          image_name: 'up42-tf1-py37:latest'
+          policy_failure: false
+          timeout: '600'
+      - anchore/parse_reports
+      - store_artifacts:
+          path: anchore-reports
+   push:
+     docker:
+       - image: circleci/python:3.7
+     steps:
+       - checkout
+       - setup_remote_docker
+       - run:
+           name: Build Docker image
+           command: make build all
+       - run:
+           name: Push Docker image
+           command: make push all
+
+workflows:
+  version: 2
+  build-master:
+    jobs:
+      - build
+      - push:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
+      - anchore/image_scan:
+          image_name: 'docker.io/up42/up42-tf2-py37:latest'
+          timeout: '1000'
+          requires:
+            - push
+          filters:
+            branches:
+              only: master
+      - anchore/image_scan:
+          image_name: 'docker.io/up42/up42-gdal-py37:latest'
+          timeout: '600'
+          requires:
+            - push
+          filters:
+            branches:
+              only: master
+      - anchore/image_scan:
+          image_name: 'docker.io/up42/up42-harp-py37:latest'
+          timeout: '600'
+          requires:
+            - push
+          filters:
+            branches:
+              only: master
+      - anchore/image_scan:
+          image_name: 'docker.io/up42/up42-base-py37:latest'
+          timeout: '600'
+          requires:
+            - push
+          filters:
+            branches:
+              only: master
+      - anchore/image_scan:
+          image_name: 'docker.io/up42/up42-snap-py37:latest'
+          timeout: '600'
+          requires:
+            - push
+          filters:
+            branches:
+              only: master
+      - anchore/image_scan:
+          image_name: 'docker.io/up42/up42-tf1-py37:latest'
+          timeout: '600'
+          requires:
+            - push
+          filters:
+            branches:
+              only: master
