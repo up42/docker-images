@@ -19,6 +19,31 @@ jobs:
           image_name: 'up42-tf2-py37:latest'
           policy_failure: true
           timeout: '600'
+      - anchore/analyze_local_image:
+          dockerfile_path: ./Dockerfile_gdal_py37
+          image_name: 'up42-gdal-py37:latest'
+          policy_failure: true
+          timeout: '600'
+      - anchore/analyze_local_image:
+          dockerfile_path: ./Dockerfile_harp_py37
+          image_name: 'up42-harp-py37:latest'
+          policy_failure: true
+          timeout: '600'
+      - anchore/analyze_local_image:
+          dockerfile_path: ./Dockerfile_base_py37
+          image_name: 'up42-base-py37:latest'
+          policy_failure: true
+          timeout: '600'
+      - anchore/analyze_local_image:
+          dockerfile_path: ./Dockerfile_snap_py37
+          image_name: 'up42-snap-py37:latest'
+          policy_failure: true
+          timeout: '600'
+      - anchore/analyze_local_image:
+          dockerfile_path: ./Dockerfile_tf1_py37
+          image_name: 'up42-tf1-py37:latest'
+          policy_failure: true
+          timeout: '600'
       - anchore/parse_reports
       - store_artifacts:
           path: anchore-reports
