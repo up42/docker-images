@@ -18,7 +18,7 @@ jobs:
           dockerfile_path: ./Dockerfile_tf2_py37
           image_name: 'up42-tf2-py37:latest'
           policy_failure: true
-          timeout: '600'
+          timeout: '1000'
       - anchore/analyze_local_image:
           dockerfile_path: ./Dockerfile_gdal_py37
           image_name: 'up42-gdal-py37:latest'
@@ -73,7 +73,7 @@ workflows:
               only: master
       - anchore/image_scan:
           image_name: 'docker.io/up42/up42-tf2-py37:latest'
-          timeout: '600'
+          timeout: '1000'
           requires:
             - push
           filters:
