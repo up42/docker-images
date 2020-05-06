@@ -1,4 +1,4 @@
-FROM tensorflow/tensorflow:1.14.0-gpu-py3
+FROM tensorflow/tensorflow:1.15.2-gpu-py3
 
 ARG PYTHON=python3.7
 
@@ -22,5 +22,5 @@ RUN apt-get install python3.7-dev python3-dev python-dev -y
 
 RUN ln -f $(which ${PYTHON}) /usr/local/bin/python
 
-ARG TF_PACKAGE=tensorflow-gpu==1.14
+ARG TF_PACKAGE=tensorflow-gpu==1.15
 RUN pip install --upgrade ${TF_PACKAGE}
