@@ -56,9 +56,11 @@ jobs:
        - run:
            name: Build Docker image
            command: make build all
+           no_output_timeout: 30m
        - run:
            name: Push Docker image
            command: make push all
+           no_output_timeout: 30m
 
 workflows:
   version: 2
