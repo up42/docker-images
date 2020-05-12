@@ -35,6 +35,11 @@ jobs:
           policy_failure: false
           timeout: '600'
       - anchore/analyze_local_image:
+          dockerfile_path: ./Dockerfile_base_py37
+          image_name: 'up42-blockutils-py37:latest'
+          policy_failure: false
+          timeout: '600'
+      - anchore/analyze_local_image:
           dockerfile_path: ./Dockerfile_snap_py37
           image_name: 'up42-snap-py37:latest'
           policy_failure: false
