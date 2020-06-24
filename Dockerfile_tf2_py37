@@ -1,11 +1,11 @@
-FROM tensorflow/tensorflow:2.1.0-gpu-py3
+FROM tensorflow/tensorflow:2.1.0-gpu
 
 ARG PYTHON=python3.7
 
 ENV LANG C.UTF-8
 
 RUN apt-get update
-RUN apt-get install apt-utils wget -y
+RUN apt-get install wget -y
 
 RUN add-apt-repository ppa:deadsnakes/ppa && apt-get update && apt-get install -y ${PYTHON}
 

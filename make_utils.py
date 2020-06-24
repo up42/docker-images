@@ -91,7 +91,7 @@ if __name__ == "__main__":
             for image_name in all_images:
                 build(image_name, all_images[image_name])
         elif args.build in all_images:
-            push(args.build)
+            build(args.build, all_images[args.build])
         else:
             logger.error("No image named %s" % args.build)
 
