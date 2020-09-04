@@ -1,0 +1,34 @@
+# base image for our CircleCI terraform workflows
+
+# based on 2020 long term support version of ubuntu
+FROM ubuntu:20.04
+
+# to make php installation non-interactive
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update
+RUN apt-get install -yq \
+ curl \
+ unzip \
+ ruby-full \
+ make \
+ gcc \
+ php
+
+# install rake
+RUN gem install rake
+
+# install terraform
+RUN curl https://releases.hashicorp.com/terraform/0.12.29/terraform_0.12.29_linux_amd64.zip -O
+RUN unzip terraform_0.12.29_linux_amd64.zip
+RUN chmod +x terraform
+RUN mv terraform /usr/local/bin/
+
+# install bundler for gem installation
+RUN gem install bundler
+
+# cache possible gems
+COPY gemfiles .
+RUN bundler install
+
+
