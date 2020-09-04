@@ -30,5 +30,3 @@ RUN gem install bundler
 # cache possible gems
 COPY gemfiles .
 RUN bundler install
-
-
