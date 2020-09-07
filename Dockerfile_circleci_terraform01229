@@ -15,7 +15,9 @@ RUN apt-get install -yq \
  gcc \
  php \
  jq \
- git-all
+ git \
+ wget \
+ unzip
 
 # install rake
 RUN gem install rake
@@ -32,3 +34,12 @@ RUN gem install bundler
 # cache possible gems
 COPY gemfiles .
 RUN bundler install
+
+# install community terraform providers
+RUN mkdir -p $HOME/.terraform.d/plugins/linux_amd64/
+RUN wget https://github.com/russellcardullo/terraform-provider-pingdom/releases/download/v1.1.1/terraform-provider-pingdom_v1.1.1_linux_amd64_static -O $HOME/.terraform.d/plugins/linux_amd64/terraform-provider-pingdom_v1.1.1
+RUN chmod +x $HOME/.terraform.d/plugins/linux_amd64/terraform-provider-pingdom_v1.1.1
+RUN wget https://github.com/gavinbunney/terraform-provider-kubectl/releases/download/v1.6.2/terraform-provider-kubectl_1.6.2_linux_amd64.zip -O $HOME/kubectl-provider.zip
+RUN unzip $HOME/kubectl-provider.zip -d $HOME
+RUN mv $HOME/terraform-provider-kubectl_v1.6.2 $HOME/.terraform.d/plugins/linux_amd64/terraform-provider-kubectl
+RUN chmod +x $HOME/.terraform.d/plugins/linux_amd64/terraform-provider-kubectl
