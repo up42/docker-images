@@ -14,7 +14,8 @@ RUN apt-get install -yq \
  make \
  gcc \
  php \
- jq
+ jq \
+ git-all
 
 # install rake
 RUN gem install rake
