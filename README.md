@@ -1,6 +1,6 @@
 # UP42 Docker images
 
-Docker base images used by blocks.
+Docker base images used by up42 blocks and CI.
 
 ## Getting started
 
@@ -30,7 +30,7 @@ To build all base images:
 make build all
 ```
 
-### Adding a new base image
+### Adding a new block base image
 
 When adding a new base image, make sure you create the corresponding `Dockerfile` with the naming convention `Dockerfile_[descriptor snap]_[python version e.g. py37]` - the result image name will be `up42-[descriptor]_[python version]`.
 
