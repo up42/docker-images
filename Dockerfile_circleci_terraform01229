@@ -13,7 +13,8 @@ RUN apt-get install -yq \
  ruby-full \
  make \
  gcc \
- php
+ php \
+ jq
 
 # install rake
 RUN gem install rake
