@@ -8,16 +8,34 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update
 RUN apt-get install -yq \
- curl \
- unzip \
- ruby-full \
- make \
- gcc \
- php \
- jq \
- git \
- wget \
- unzip
+    curl \
+    unzip \
+    ruby-full \
+    make \
+    gcc \
+    php \
+    jq \
+    git \
+    wget \
+    unzip \
+    gnupg \
+    gnupg2
+
+# add google cloud deb repo
+RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+
+# add kubectl deb repo
+RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+RUN echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list
+
+# install google cloud-sdk and kubectl
+RUN apt-get update
+RUN apt-get install -yq \
+    apt-transport-https \
+    ca-certificates \
+    google-cloud-sdk \
+    kubectl
 
 # install rake
 RUN gem install rake
