@@ -19,7 +19,8 @@ RUN apt-get install -yq \
     wget \
     unzip \
     gnupg \
-    gnupg2
+    gnupg2 \
+    software-properties-common
 
 # add google cloud deb repo
 RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
@@ -29,13 +30,18 @@ RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyri
 RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
 RUN echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list
 
+# add github repository
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+RUN apt-add-repository https://cli.github.com/packages
+
 # install google cloud-sdk and kubectl
 RUN apt-get update
 RUN apt-get install -yq \
     apt-transport-https \
     ca-certificates \
     google-cloud-sdk \
-    kubectl
+    kubectl \
+    gh
 
 # install rake
 RUN gem install rake
