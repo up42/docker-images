@@ -1,0 +1,39 @@
+FROM tensorflow/tensorflow:2.1.0-gpu
+
+ARG PYTHON=python3.8
+
+ENV LANG C.UTF-8
+
+RUN apt-get update
+RUN apt-get install wget -y
+
+RUN add-apt-repository ppa:deadsnakes/ppa && apt-get update && apt-get install -y ${PYTHON}
+
+RUN wget https://bootstrap.pypa.io/get-pip.py
+# RUN ${PYTHON} get-pip.py
+RUN ln -sf /usr/bin/${PYTHON} /usr/local/bin/python3
+RUN ln -sf /usr/local/bin/pip /usr/local/bin/pip3
+
+RUN pip --no-cache-dir install --upgrade \
+    pip \
+    setuptools
+
+RUN apt-get install python3.8-dev python3-dev python-dev -y
+
+RUN which ${PYTHON}
+
+RUN ln -f $(which ${PYTHON}) /usr/local/bin/python
+
+ARG TF_PACKAGE=tensorflow==2.1.0
+RUN pip install --upgrade ${TF_PACKAGE}
+
+RUN mkdir -p /up42/libs
+WORKDIR /up42/libs
+
+RUN which python
+
+
+# COPY ../../../requirements/requirements.txt /up42/libs/
+# RUN pip install -r /up42/libs/requirements.txt
+# COPY requirements/requirements_tf2.txt /up42/libs/
+# RUN pip install -r /up42/libs/requirements_tf2.txt
