@@ -112,14 +112,6 @@ workflows:
             branches:
               only: master
       - anchore/image_scan:
-        image_name: 'docker.io/up42/up42-blockutils-py38:latest'
-        timeout: '600'
-        requires:
-          - push
-        filters:
-          branches:
-            only: master
-      - anchore/image_scan:
           image_name: 'docker.io/up42/up42-snap-py38:latest'
           timeout: '600'
           requires:
