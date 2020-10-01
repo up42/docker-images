@@ -30,7 +30,7 @@ logger = get_logger(__name__)
 
 def image_paths():
     p = Path('./dockerfiles/blocks/')
-    return [x for x in p.iterdir() if "Dockerfile_" in str(x)]
+    return [x for x in p.glob("**/*") if "Dockerfile_" in str(x)]
 
 def image_names():
     images = image_paths()
