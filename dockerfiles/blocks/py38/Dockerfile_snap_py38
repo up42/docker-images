@@ -1,5 +1,5 @@
 # Use python stretch (debian) stable as the base image.
-FROM python:3.7-stretch
+FROM python:3.8.6
 
 # Build argument defining the maximum heap size for gpt.
 ARG MAX_HEAP_SIZE=4G
@@ -19,11 +19,12 @@ RUN wget http://step.esa.int/downloads/7.0/installers/esa-snap_sentinel_unix_7_0
 
 ARG LIBS_DIR=blocks/snap-polarimetric/libs
 
+# gcc-8-base dependency is inspired by https://unix.stackexchange.com/a/592703
 RUN export DEBIAN_FRONTEND=noninteractive \
     && echo "deb [trusted=yes] http://ftp.us.debian.org/debian sid main" >> /etc/apt/sources.list \
     && echo "deb-src [trusted=yes] http://ftp.us.debian.org/debian sid main" >> /etc/apt/sources.list \
     && apt-get update -y \
-    && apt-get install -y --no-install-recommends -t sid build-essential ca-certificates openjdk-8-jre-headless openjdk-8-jdk-headless libgeos-dev
+    && apt-get install -y --no-install-recommends -t sid build-essential gcc-8-base ca-certificates openjdk-8-jre-headless openjdk-8-jdk-headless libgeos-dev
 
 # Making sure JRE is installed before we jump into installing JDK.
 #RUN apt-get install -y --no-install-recommends -t sid

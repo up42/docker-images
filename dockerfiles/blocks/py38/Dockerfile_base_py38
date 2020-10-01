@@ -1,4 +1,6 @@
-FROM python:3.7
+FROM python:3.8.6
+
+RUN apt-get update -y && apt-get install -y libgeos-dev
 
 RUN mkdir -p /up42/libs
 WORKDIR /up42/libs

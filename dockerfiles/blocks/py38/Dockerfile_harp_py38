@@ -1,6 +1,6 @@
-FROM python:3.7
+FROM python:3.8
 
-RUN apt-get update && apt-get -y install coda harp libhdf5-dev
+RUN apt-get update -y && apt-get install -y libgeos-dev coda harp libhdf5-dev
 RUN h5cc -showconfig
 
 RUN mkdir -p /up42/libs
