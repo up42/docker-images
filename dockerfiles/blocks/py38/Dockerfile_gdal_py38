@@ -1,0 +1,12 @@
+FROM osgeo/gdal:ubuntu-small-latest
+
+RUN apt-get update && apt-get install -y \
+    python3-pip
+
+RUN pip3 install --upgrade --force-reinstall numpy
+
+RUN mkdir -p /up42/libs
+WORKDIR /up42/libs
+
+COPY requirements/requirements.txt /up42/libs/
+RUN pip3 install -r /up42/libs/requirements.txt

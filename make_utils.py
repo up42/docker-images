@@ -1,12 +1,12 @@
-import sys
-import os
-import subprocess
 import argparse
-from pathlib import Path
-import logging
 import glob
-import re
 import json
+import logging
+import os
+import re
+import subprocess
+import sys
+from pathlib import Path
 
 LOG_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 UP42_BASE_IMAGE_PREFIX = 'up42'
@@ -29,8 +29,8 @@ logger = get_logger(__name__)
 
 
 def image_paths():
-    p = Path('.')
-    return [x for x in p.iterdir() if str(x).startswith("Dockerfile_")]
+    p = Path('./dockerfiles/')
+    return [x for x in p.glob("**/*") if "Dockerfile_" in str(x)]
 
 def image_names():
     images = image_paths()
@@ -45,24 +45,24 @@ def base_images():
 
 def build(image_name, image_path):
     logger.info("\n")
-    logger.info("Building image '%s' from file %s" % (image_name, image_path))
-    image_build_cmd = """docker build -t %s -f %s .""" % (image_name, image_path)
+    logger.info(f"Building image '{image_name}' from file {image_path}")
+    image_build_cmd = f"""docker build -t {image_name} -f {image_path} ."""
     return_value = os.system(image_build_cmd)
     if return_value:
-        logger.error("Building for %s failed!" % image_name)
-        raise Exception("Building for %s failed!" % image_name)
+        logger.error(f"Building for {image_name} failed!")
+        raise Exception(f"Building for {image_name} failed!")
 
 def push(image_name):
-    cmd_tag = "docker tag %s up42/%s" % (image_name, image_name)
+    cmd_tag = f"docker tag {image_name} up42/{image_name}"
     return_value = os.system(cmd_tag)
     if return_value:
-        logger.error("Tagging for %s failed!" % image_name)
-        raise Exception("Tagging for %s failed!" % image_name)
-    cmd_pushing = """docker push %s/%s""" % (UP42_BASE_IMAGE_PREFIX, image_name)
+        logger.error(f"Tagging for {image_name} failed!")
+        raise Exception(f"Tagging for {image_name} failed!" % image_name)
+    cmd_pushing = f"""docker push {UP42_BASE_IMAGE_PREFIX}/{image_name}"""
     return_value = os.system(cmd_pushing)
     if return_value:
-        logger.error("Pushing for %s failed!" % image_name)
-        raise Exception("Pushing for %s failed!" % image_name)
+        logger.error(f"Pushing for {image_name} failed!")
+        raise Exception(f"Pushing for {image_name} failed!")
 
 def login():
     cmd_login = """echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin"""
@@ -93,7 +93,7 @@ if __name__ == "__main__":
         elif args.build in all_images:
             build(args.build, all_images[args.build])
         else:
-            logger.error("No image named %s" % args.build)
+            logger.error(f"No image named {args.build}")
 
     if args.push:
         login()
@@ -103,4 +103,4 @@ if __name__ == "__main__":
         elif args.push in all_images:
             push(args.push)
         else:
-            logger.error("No image named %s" % args.push)
+            logger.error(f"No image named {args.push}")

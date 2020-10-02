@@ -1,0 +1,9 @@
+FROM python:3.8.6
+
+RUN apt-get update -y && apt-get install -y libgeos-dev
+
+RUN mkdir -p /up42/libs
+WORKDIR /up42/libs
+
+COPY requirements/requirements.txt /up42/libs/
+RUN pip install -r /up42/libs/requirements.txt
