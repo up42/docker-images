@@ -1,0 +1,9 @@
+# Based on Google SDK to allow Google Cloud functionality
+FROM google/cloud-sdk:alpine
+
+# Download the binary
+RUN curl -sLO https://github.com/argoproj/argo/releases/download/v2.11.6/argo-linux-amd64.gz && \
+    gunzip argo-linux-amd64.gz && \
+    chmod +x argo-linux-amd64 && \
+    mv ./argo-linux-amd64 /usr/local/bin/argo
+
