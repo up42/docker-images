@@ -11,11 +11,12 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 && apt-get --no-install-recommends install -y wget
 
 # Get & setup the SNAP toolbox. Maximum heap size is set to 4GB.
-RUN wget http://step.esa.int/downloads/7.0/installers/esa-snap_sentinel_unix_7_0.sh \
-&& chmod 700 esa-snap_sentinel_unix_7_0.sh \
-&& ./esa-snap_sentinel_unix_7_0.sh -q \
+RUN wget https://step.esa.int/downloads/8.0/installers/esa-snap_sentinel_unix_8_0.sh \
+&& chmod 700 esa-snap_sentinel_unix_8_0.sh \
+&& ./esa-snap_sentinel_unix_8_0.sh -q \
 && ln -s /usr/local/snap/bin/gpt /usr/bin/gpt \
-&& sed -i -e "s/-Xmx1G/-Xmx${MAX_HEAP_SIZE}/g" /usr/local/snap/bin/gpt.vmoptions
+&& sed -i -e "s;-Xmx1G;-Xmx${MAX_HEAP_SIZE};g" /usr/local/snap/bin/gpt.vmoptions \
+&& sed -i -e "s;DEM.srtm3GeoTiffDEM_HTTP = http://cgiar-csi-srtm.openterrain.org.s3.amazonaws.com/source/;DEM.srtm3GeoTiffDEM_HTTP = http://skywatch-auxdata.s3-us-west-2.amazonaws.com/dem/SRTM90/tiff/;g" /usr/local/snap/etc/snap.auxdata.properties
 
 ARG LIBS_DIR=blocks/snap-polarimetric/libs
 
