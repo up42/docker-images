@@ -1,5 +1,5 @@
 # Use python stretch (debian) stable as the base image.
-FROM python:3.8.6
+FROM python:3.8.9
 
 # Build argument defining the maximum heap size for gpt.
 ARG MAX_HEAP_SIZE=4G

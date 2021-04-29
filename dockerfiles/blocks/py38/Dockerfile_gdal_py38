@@ -1,3 +1,4 @@
+## https://github.com/OSGeo/gdal/tree/master/gdal/docker#small-osgeogdalubuntu-small-latest
 FROM osgeo/gdal:ubuntu-small-latest
 
 RUN apt-get update && apt-get install -y \
