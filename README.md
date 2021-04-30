@@ -30,6 +30,13 @@ To build all base images:
 make build all
 ```
 
+To build a specific image:
+```bash
+make build up42-snap-py37
+```
+
+See `make list-images`
+
 ### Adding a new block base image
 
 When adding a new base image, make sure you create the corresponding `Dockerfile` with the naming convention `Dockerfile_[descriptor snap]_[python version e.g. py37]` - the result image name will be `up42-[descriptor]_[python version]`.
